@@ -10,13 +10,20 @@ import re
 
 from sqlparse import tokens
 
+DB = "BIGQUERY"
+
 
 def is_keyword(value):
     val = value.upper()
-    return (KEYWORDS_COMMON.get(val) or
-            KEYWORDS_ORACLE.get(val) or
-            KEYWORDS_PLPGSQL.get(val) or
-            KEYWORDS.get(val, tokens.Name)), value
+    if DB == "BIGQUERY":
+        return (KEYWORDS_COMMON.get(val) or
+                KEYWORDS_BIGQUERY.get(val, tokens.Name)), value
+
+    else:
+        return (KEYWORDS_COMMON.get(val) or
+                KEYWORDS_ORACLE.get(val) or
+                KEYWORDS_PLPGSQL.get(val) or
+                KEYWORDS.get(val, tokens.Name)), value
 
 
 SQL_REGEX = {
@@ -88,7 +95,6 @@ SQL_REGEX = {
 
 FLAGS = re.IGNORECASE | re.UNICODE
 SQL_REGEX = [(re.compile(rx, FLAGS).match, tt) for rx, tt in SQL_REGEX['root']]
-
 KEYWORDS = {
     'ABORT': tokens.Keyword,
     'ABS': tokens.Keyword,
@@ -114,6 +120,7 @@ KEYWORDS = {
     'ASYMMETRIC': tokens.Keyword,
     'AT': tokens.Keyword,
     'ATOMIC': tokens.Keyword,
+    'AS': tokens.Keyword,
     'AUDIT': tokens.Keyword,
     'AUTHORIZATION': tokens.Keyword,
     'AUTO_INCREMENT': tokens.Keyword,
@@ -270,7 +277,7 @@ KEYWORDS = {
     'FORWARD': tokens.Keyword,
     'FOUND': tokens.Keyword,
     'FREE': tokens.Keyword,
-    'FREEZE': tokens.Keyword,
+    # 'FREEZE': tokens.Keyword,
     'FULL': tokens.Keyword,
     'FUNCTION': tokens.Keyword,
 
@@ -349,7 +356,7 @@ KEYWORDS = {
     'LOWER': tokens.Keyword,
 
     # 'M': tokens.Keyword,
-    'MAP': tokens.Keyword,
+    # 'MAP': tokens.Keyword,
     'MATCH': tokens.Keyword,
     'MAXEXTENTS': tokens.Keyword,
     'MAXVALUE': tokens.Keyword,
@@ -445,7 +452,7 @@ KEYWORDS = {
     'PUBLIC': tokens.Keyword,
 
     'RAISE': tokens.Keyword,
-    'RAW': tokens.Keyword,
+    # 'RAW': tokens.Keyword,
     'READ': tokens.Keyword,
     'READS': tokens.Keyword,
     'RECHECK': tokens.Keyword,
@@ -587,7 +594,7 @@ KEYWORDS = {
     'UPPER': tokens.Keyword,
     'USAGE': tokens.Keyword,
     'USE': tokens.Keyword,
-    'USER': tokens.Keyword,
+    # 'USER': tokens.Keyword,
     'USER_DEFINED_TYPE_CATALOG': tokens.Keyword,
     'USER_DEFINED_TYPE_NAME': tokens.Keyword,
     'USER_DEFINED_TYPE_SCHEMA': tokens.Keyword,
@@ -698,6 +705,76 @@ KEYWORDS_COMMON = {
     'DISTINCT': tokens.Keyword,
 }
 
+KEYWORDS_BIGQUERY = {
+    'ALL': tokens.Keyword,
+    'ANY': tokens.Keyword,
+    'ARRAY': tokens.Name.Builtin,
+    'ASC': tokens.Keyword.Order,
+    'ASSERT_ROWS_MODIFIED': tokens.Keyword,
+    'AT': tokens.Keyword,
+    'BETWEEN': tokens.Keyword,
+    'CAST': tokens.Keyword,
+    'COLLATE': tokens.Keyword,
+    'CONTAINS': tokens.Keyword,
+    'CROSS': tokens.Keyword,
+    'CUBE': tokens.Keyword,
+    'CURRENT': tokens.Keyword,
+    'DEFAULT': tokens.Keyword,
+    'DEFINE': tokens.Keyword,
+    'DESC': tokens.Keyword.Order,
+    'ENUM': tokens.Keyword,
+    'ESCAPE': tokens.Keyword,
+    'EXCEPT': tokens.Keyword,
+    'EXCLUDE': tokens.Keyword,
+    'EXISTS': tokens.Keyword,
+    'EXTRACT': tokens.Keyword,
+    'FALSE': tokens.Keyword,
+    'FETCH': tokens.Keyword,
+    'FOLLOWING': tokens.Keyword,
+    'GROUPING': tokens.Keyword,
+    'GROUPS': tokens.Keyword,
+    'HASH': tokens.Keyword,
+    'HAVING': tokens.Keyword,
+    'IGNORE': tokens.Keyword,
+    'INTERSECT': tokens.Keyword,
+    'INTERVAL': tokens.Name.Builtin,
+    'INTO': tokens.Keyword,
+    'IS': tokens.Keyword,
+    'LATERAL': tokens.Keyword,
+    'LIMIT': tokens.Keyword,
+    'LOOKUP': tokens.Keyword,
+    'NATURAL': tokens.Keyword,
+    'NEW': tokens.Keyword,
+    'NO': tokens.Keyword,
+    'NOT': tokens.Keyword,
+    'NULL': tokens.Keyword,
+    'NULLS': tokens.Keyword,
+    'OF': tokens.Keyword,
+    'OVER': tokens.Keyword,
+    'PARTITION': tokens.Keyword,
+    'PRECEDING': tokens.Keyword,
+    'PROTO': tokens.Keyword,
+    'RANGE': tokens.Keyword,
+    'RECURSIVE': tokens.Keyword,
+    'RESPECT': tokens.Keyword,
+    'RIGHT': tokens.Keyword,
+    'ROLLUP': tokens.Keyword,
+    'ROWS': tokens.Keyword,
+    'SOME': tokens.Keyword,
+    'STRUCT': tokens.Keyword,
+    'TABLESAMPLE': tokens.Keyword,
+    'TO': tokens.Keyword,
+    'TREAT': tokens.Keyword,
+    'TRUE': tokens.Keyword,
+    'UNBOUNDED': tokens.Keyword,
+    'UNION': tokens.Keyword,
+    'UNNEST': tokens.Keyword,
+    'USING': tokens.Keyword,
+    'WINDOW': tokens.Keyword,
+    'WITHIN': tokens.Keyword,
+    'AS': tokens.Keyword,
+    'FULL': tokens.Keyword
+}
 KEYWORDS_ORACLE = {
     'ARCHIVE': tokens.Keyword,
     'ARCHIVELOG': tokens.Keyword,
