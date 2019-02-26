@@ -10,20 +10,14 @@ import re
 
 from sqlparse import tokens
 
-DB = "BIGQUERY"
-
 
 def is_keyword(value):
     val = value.upper()
-    if DB == "BIGQUERY":
-        return (KEYWORDS_COMMON.get(val) or
-                KEYWORDS_BIGQUERY.get(val, tokens.Name)), value
 
-    else:
-        return (KEYWORDS_COMMON.get(val) or
-                KEYWORDS_ORACLE.get(val) or
-                KEYWORDS_PLPGSQL.get(val) or
-                KEYWORDS.get(val, tokens.Name)), value
+    return (KEYWORDS_COMMON.get(val) or
+            # KEYWORDS_ORACLE.get(val) or
+            KEYWORDS_PLPGSQL.get(val) or
+            KEYWORDS.get(val, tokens.Name)), value
 
 
 SQL_REGEX = {
@@ -121,7 +115,7 @@ KEYWORDS = {
     'AT': tokens.Keyword,
     'ATOMIC': tokens.Keyword,
     'AS': tokens.Keyword,
-    'AUDIT': tokens.Keyword,
+    # 'AUDIT': tokens.Keyword,
     'AUTHORIZATION': tokens.Keyword,
     'AUTO_INCREMENT': tokens.Keyword,
     'AVG': tokens.Keyword,
@@ -159,7 +153,7 @@ KEYWORDS = {
     'CLASS': tokens.Keyword,
     'CLASS_ORIGIN': tokens.Keyword,
     'CLOB': tokens.Keyword,
-    'CLOSE': tokens.Keyword,
+    # 'CLOSE': tokens.Keyword,
     'CLUSTER': tokens.Keyword,
     'COALESCE': tokens.Keyword,
     'COBOL': tokens.Keyword,
@@ -658,6 +652,7 @@ KEYWORDS = {
     'VARYING': tokens.Name.Builtin,
 }
 
+
 KEYWORDS_COMMON = {
     'SELECT': tokens.Keyword.DML,
     'INSERT': tokens.Keyword.DML,
@@ -705,76 +700,6 @@ KEYWORDS_COMMON = {
     'DISTINCT': tokens.Keyword,
 }
 
-KEYWORDS_BIGQUERY = {
-    'ALL': tokens.Keyword,
-    'ANY': tokens.Keyword,
-    'ARRAY': tokens.Name.Builtin,
-    'ASC': tokens.Keyword.Order,
-    'ASSERT_ROWS_MODIFIED': tokens.Keyword,
-    'AT': tokens.Keyword,
-    'BETWEEN': tokens.Keyword,
-    'CAST': tokens.Keyword,
-    'COLLATE': tokens.Keyword,
-    'CONTAINS': tokens.Keyword,
-    'CROSS': tokens.Keyword,
-    'CUBE': tokens.Keyword,
-    'CURRENT': tokens.Keyword,
-    'DEFAULT': tokens.Keyword,
-    'DEFINE': tokens.Keyword,
-    'DESC': tokens.Keyword.Order,
-    'ENUM': tokens.Keyword,
-    'ESCAPE': tokens.Keyword,
-    'EXCEPT': tokens.Keyword,
-    'EXCLUDE': tokens.Keyword,
-    'EXISTS': tokens.Keyword,
-    'EXTRACT': tokens.Keyword,
-    'FALSE': tokens.Keyword,
-    'FETCH': tokens.Keyword,
-    'FOLLOWING': tokens.Keyword,
-    'GROUPING': tokens.Keyword,
-    'GROUPS': tokens.Keyword,
-    'HASH': tokens.Keyword,
-    'HAVING': tokens.Keyword,
-    'IGNORE': tokens.Keyword,
-    'INTERSECT': tokens.Keyword,
-    'INTERVAL': tokens.Name.Builtin,
-    'INTO': tokens.Keyword,
-    'IS': tokens.Keyword,
-    'LATERAL': tokens.Keyword,
-    'LIMIT': tokens.Keyword,
-    'LOOKUP': tokens.Keyword,
-    'NATURAL': tokens.Keyword,
-    'NEW': tokens.Keyword,
-    'NO': tokens.Keyword,
-    'NOT': tokens.Keyword,
-    'NULL': tokens.Keyword,
-    'NULLS': tokens.Keyword,
-    'OF': tokens.Keyword,
-    'OVER': tokens.Keyword,
-    'PARTITION': tokens.Keyword,
-    'PRECEDING': tokens.Keyword,
-    'PROTO': tokens.Keyword,
-    'RANGE': tokens.Keyword,
-    'RECURSIVE': tokens.Keyword,
-    'RESPECT': tokens.Keyword,
-    'RIGHT': tokens.Keyword,
-    'ROLLUP': tokens.Keyword,
-    'ROWS': tokens.Keyword,
-    'SOME': tokens.Keyword,
-    'STRUCT': tokens.Keyword,
-    'TABLESAMPLE': tokens.Keyword,
-    'TO': tokens.Keyword,
-    'TREAT': tokens.Keyword,
-    'TRUE': tokens.Keyword,
-    'UNBOUNDED': tokens.Keyword,
-    'UNION': tokens.Keyword,
-    'UNNEST': tokens.Keyword,
-    'USING': tokens.Keyword,
-    'WINDOW': tokens.Keyword,
-    'WITHIN': tokens.Keyword,
-    'AS': tokens.Keyword,
-    'FULL': tokens.Keyword
-}
 KEYWORDS_ORACLE = {
     'ARCHIVE': tokens.Keyword,
     'ARCHIVELOG': tokens.Keyword,
